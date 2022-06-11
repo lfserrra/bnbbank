@@ -2,6 +2,7 @@
 
 namespace Turnover\Models\User;
 
+use Hash;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -15,11 +16,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     use HasApiTokens, HasFactory, Notifiable, Authenticatable, Authorizable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -29,13 +25,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'is_admin'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
+
 }

@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Turnover\Traits\ResponseTrait;
 
 class LoginController extends Controller {
+
+    use ResponseTrait;
 
     public function login(LoginRequest $request)
     {
@@ -21,7 +24,7 @@ class LoginController extends Controller {
 
         $token = auth()->user()->createToken('authtoken');
 
-        return response()->json(['success' => true, 'user' => auth()->user(), 'token' => $token->plainTextToken]);
+        return $this->successResponse(['user' => auth()->user(), 'token' => $token->plainTextToken]);
     }
 
     public function logout(Request $request)
@@ -37,6 +40,6 @@ class LoginController extends Controller {
             $request->session()->regenerateToken();
         }
 
-        return response()->json(['success' => true]);
+        return $this->successResponse();
     }
 }

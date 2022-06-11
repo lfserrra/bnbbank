@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -25,7 +24,7 @@ class AuthenticationTest extends TestCase {
 
     public function test_must_wrong_username_or_password()
     {
-        $loginData = ['username' => 'user__', 'password' => 'user__'];
+        $loginData = ['username' => 'user', 'password' => 'user'];
 
         $this->json('POST', 'auth/login', $loginData)
              ->assertStatus(422)
@@ -39,17 +38,14 @@ class AuthenticationTest extends TestCase {
 
     public function test_must_successful_login()
     {
-        \Turnover\Models\User\User::factory()->create([
-            'username' => 'test_user',
-            'password' => Hash::make('test_user')
-        ]);
+        $user = \Turnover\Models\User\User::factory()->create();
 
-        $loginData = ['username' => 'test_user', 'password' => 'test_user'];
+        $loginData = ['username' => $user->username, 'password' => $user->username];
 
         $this->json('POST', 'auth/login', $loginData)
              ->assertStatus(200)
              ->assertJsonPath('success', true)
-             ->assertJsonPath('user.username', 'test_user')
+             ->assertJsonPath('user.username', $user->username)
              ->assertJsonStructure(['success', 'user', 'token']);
     }
 
