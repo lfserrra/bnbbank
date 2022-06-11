@@ -1,7 +1,8 @@
 FROM php:8.1-fpm-alpine
 
-RUN apk add --no-cache openssl bash git mysql-client
-RUN docker-php-ext-install pdo pdo_mysql bcmath
+RUN apk add --no-cache openssl bash git mysql-client libzip-dev libpng-dev jpeg-dev
+RUN docker-php-ext-configure gd --with-jpeg
+RUN docker-php-ext-install pdo pdo_mysql bcmath gd
 
 WORKDIR /var/www
 
