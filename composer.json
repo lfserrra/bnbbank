@@ -58,6 +58,9 @@
         ],
         "test": [
             "vendor/bin/phpunit"
+        ],
+        "test-coverage": [
+            "vendor/bin/phpunit --coverage-html reports/"
         ]
     },
     "extra": {
