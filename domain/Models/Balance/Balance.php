@@ -2,6 +2,7 @@
 
 namespace Turnover\Models\Balance;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Turnover\Models\BalanceCheck\BalanceCheck;
 use Turnover\Models\BalanceStatus\BalanceStatus;
@@ -9,6 +10,8 @@ use Turnover\Models\BalanceType\BalanceType;
 use Turnover\Models\User\User;
 
 class Balance extends Model {
+
+    use HasFactory;
 
     protected $fillable = ['status_id', 'type_id', 'customer_id', 'amount', 'description'];
 
@@ -27,8 +30,8 @@ class Balance extends Model {
         return $this->belongsTo(User::class);
     }
 
-    public function checks()
+    public function check()
     {
-        return $this->hasMany(BalanceCheck::class);
+        return $this->hasOne(BalanceCheck::class);
     }
 }

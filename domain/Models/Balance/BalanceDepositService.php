@@ -3,7 +3,10 @@
 namespace Turnover\Models\Balance;
 
 use DB;
+use Illuminate\Http\UploadedFile;
 use Turnover\Models\BalanceCheck\BalanceCheck;
+use Turnover\Models\BalanceStatus\BalanceStatus;
+use Turnover\Models\BalanceType\BalanceType;
 
 class BalanceDepositService {
 
@@ -16,8 +19,8 @@ class BalanceDepositService {
     {
         return DB::transaction(function () use ($request) {
             $balance = $this->model->create([
-                'status_id'   => 1,
-                'type_id'     => 1,
+                'status_id'   => BalanceStatus::PENDING,
+                'type_id'     => BalanceType::DEPOSIT,
                 'customer_id' => auth()->user()->id,
                 'amount'      => $request->get('amount'),
                 'description' => $request->get('description'),
@@ -25,22 +28,18 @@ class BalanceDepositService {
 
             $this->balanceCheck->create([
                 'balance_id' => $balance->id,
-                'url'        => $this->upload($request)
+                'url'        => $this->generateCheckUrl($request->check)
             ]);
 
             return $balance;
         });
     }
 
-    private function upload(BalanceRequest $request)
+    private function generateCheckUrl(UploadedFile $file)
     {
-        if ($request->hasFile('check') && $request->file('check')->isValid()) {
-            $name      = uniqid(date('HisYmd')) . auth()->user()->id;
-            $extension = $request->check->extension();
+        $name      = uniqid(date('HisYmd')) . auth()->user()->id;
+        $extension = $file->extension();
 
-            return $request->check->storeAs('checks', "$name.$extension");
-        }
-
-        return false;
+        return $file->storeAs('checks', "$name.$extension");
     }
 }

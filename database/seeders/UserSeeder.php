@@ -23,6 +23,6 @@ class UserSeeder extends Seeder {
             'is_admin' => true
         ]);
 
-        \Turnover\Models\User\User::factory(10)->create();
+        \Turnover\Models\User\User::factory(2)->create();
     }
 }

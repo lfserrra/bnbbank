@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder {
             UserSeeder::class,
             BalanceTypeSeeder::class,
             BalanceStatusSeeder::class,
+            BalanceSeeder::class,
+            BalanceCheckSeeder::class,
         ]);
     }
 }

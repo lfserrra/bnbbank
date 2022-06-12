@@ -10,4 +10,5 @@ trait ResponseTrait {
     {
         return response()->json(array_merge($data, ['success' => true]));
     }
+
 }

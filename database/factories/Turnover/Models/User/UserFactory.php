@@ -25,7 +25,7 @@ class UserFactory extends Factory {
             'email'    => $this->faker->email,
             'username' => $username = $this->faker->userName,
             'password' => $username,
-            'balance'  => 0,
+            'balance'  => $this->faker->randomFloat(2, 0.01, 1000),
             'is_admin' => false
         ];
     }
