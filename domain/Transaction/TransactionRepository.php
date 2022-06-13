@@ -1,8 +1,9 @@
 <?php
 
-namespace Turnover\Models\Transaction;
+namespace Turnover\Transaction;
 
-use Turnover\Traits\HasTransformerTrait;
+use Turnover\Base\Traits\HasTransformerTrait;
+use Turnover\Models\Transaction\Transaction;
 
 class TransactionRepository {
 

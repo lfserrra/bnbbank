@@ -4,6 +4,7 @@ namespace Turnover\Purchase;
 
 use DB;
 use Illuminate\Validation\ValidationException;
+use Turnover\Base\Exceptions\TurnoverErrorException;
 use Turnover\Models\Transaction\Transaction;
 use Turnover\Models\TransactionStatus\TransactionStatus;
 use Turnover\Models\TransactionType\TransactionType;
@@ -16,6 +17,8 @@ class PurchaseService {
 
     public function purchase(array $data): Transaction
     {
+        throw_if(auth()->user()->is_admin, new TurnoverErrorException(__('errors.youre_not_customer'), 403));
+
         if (auth()->user()->balance < $data['amount']) {
             throw ValidationException::withMessages([
                 'amount' => __('errors.enough_money'),

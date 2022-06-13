@@ -4,6 +4,7 @@ namespace Turnover\Deposit;
 
 use DB;
 use Illuminate\Http\UploadedFile;
+use Turnover\Base\Exceptions\TurnoverErrorException;
 use Turnover\Models\Transaction\Transaction;
 use Turnover\Models\TransactionCheck\TransactionCheck;
 use Turnover\Models\TransactionStatus\TransactionStatus;
@@ -18,6 +19,8 @@ class DepositService {
 
     public function deposit(DepositRequest $request): Transaction
     {
+        throw_if(auth()->user()->is_admin, new TurnoverErrorException(__('errors.youre_not_customer'), 403));
+
         return DB::transaction(function () use ($request) {
             $transaction = $this->model->create([
                 'status_id'   => TransactionStatus::PENDING,

@@ -34,6 +34,22 @@ class PurchaseTest extends TestCase {
              ]);
     }
 
+    public function test_must_fail_because_admin_cant_purchase()
+    {
+        $user = \Turnover\Models\User\User::factory()->create(['is_admin' => 1]);
+        Sanctum::actingAs($user, ['*']);
+
+        $data = [
+            'amount'      => 100.00,
+            'description' => 'First purchase'
+        ];
+
+        $this->json('POST', 'api/purchases', $data)
+             ->assertStatus(403)
+             ->assertJsonPath('success', false)
+             ->assertJsonPath('message', __('errors.youre_not_customer'));
+    }
+
     public function test_must_fail_because_customer_dont_have_enough_money()
     {
         $user = \Turnover\Models\User\User::factory()->create(['balance' => 50.00]);
@@ -47,9 +63,9 @@ class PurchaseTest extends TestCase {
         $this->json('POST', 'api/purchases', $data)
              ->assertStatus(422)
              ->assertJson([
-                 'message' => "You don't have enough money for this purchase",
+                 'message' => __('errors.enough_money'),
                  'errors'  => [
-                     'amount' => ["You don't have enough money for this purchase"]
+                     'amount' => [__('errors.enough_money')]
                  ]
              ]);
     }

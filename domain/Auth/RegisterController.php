@@ -5,7 +5,7 @@ namespace Turnover\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Turnover\Customer\CustomerRegistrationService;
-use Turnover\Traits\ResponseTrait;
+use Turnover\Base\Traits\ResponseTrait;
 
 class RegisterController extends Controller {
 

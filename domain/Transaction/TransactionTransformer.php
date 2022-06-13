@@ -1,8 +1,9 @@
 <?php
 
-namespace Turnover\Models\Transaction;
+namespace Turnover\Transaction;
 
 use League\Fractal\TransformerAbstract;
+use Turnover\Models\Transaction\Transaction;
 use Turnover\Models\TransactionType\TransactionType;
 
 class TransactionTransformer extends TransformerAbstract {

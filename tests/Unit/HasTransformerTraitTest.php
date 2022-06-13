@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Turnover\Traits\HasTransformerTrait;
+use Turnover\Base\Traits\HasTransformerTrait;
 
 class HasTransformerTraitTest extends TestCase {
 

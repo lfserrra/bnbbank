@@ -1,6 +1,6 @@
 <?php
 
-namespace Turnover\Traits;
+namespace Turnover\Base\Traits;
 
 use Illuminate\Http\JsonResponse;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Turnover\Traits;
+namespace Turnover\Base\Traits;
 
 use League\Fractal\Resource\Item;
 use League\Fractal\Manager;

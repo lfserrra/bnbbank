@@ -1,29 +1,33 @@
 <?php
 
-namespace Turnover\Models\Transaction;
+namespace Turnover\Transaction;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Turnover\Traits\ResponseTrait;
+use Turnover\Base\Traits\ResponseTrait;
 
 class TransactionController extends Controller {
 
     use ResponseTrait;
 
-    public function index(TransactionRepository $transactionRepository): JsonResponse
+    public function __construct(
+        private TransactionRepository $transactionRepository
+    ){}
+
+    public function index(): JsonResponse
     {
         $filters = request()->only('type_id', 'status_id');
 
         $filters['customer_id'] = auth()->user()->id;
 
-        $data = $transactionRepository->list($filters);
+        $data = $this->transactionRepository->list($filters);
 
         return $this->successResponse($data);
     }
 
-    public function show(int $transaction_id, TransactionRepository $transactionRepository): JsonResponse
+    public function show(int $transaction_id): JsonResponse
     {
-        $transaction = $transactionRepository->show($transaction_id);
+        $transaction = $this->transactionRepository->show($transaction_id);
 
         return $this->successResponse(['transaction' => $transaction]);
     }

@@ -4,9 +4,10 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Turnover\Base\Exceptions\TurnoverErrorException;
 
-class Handler extends ExceptionHandler
-{
+class Handler extends ExceptionHandler {
+
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -22,7 +23,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
-        //
+        TurnoverErrorException::class,
     ];
 
     /**
@@ -46,5 +47,16 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof TurnoverErrorException) {
+            $status_code = $exception->getCode() > 0 ? $exception->getCode() : 422;
+
+            return response()->json(['success' => false, 'message' => $exception->getMessage()], $status_code);
+        }
+
+        return parent::render($request, $exception);
     }
 }

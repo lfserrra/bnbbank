@@ -38,6 +38,26 @@ class DepositTest extends TestCase {
              ]);
     }
 
+    public function test_must_fail_because_admin_cant_deposit()
+    {
+        $user = \Turnover\Models\User\User::factory()->create(['is_admin' => 1]);
+        Sanctum::actingAs($user, ['*']);
+
+        Storage::fake('local');
+        $file = UploadedFile::fake()->image('check.jpg');
+
+        $data = [
+            'amount'      => 50.99,
+            'description' => 'First deposit',
+            'check'       => $file
+        ];
+
+        $this->json('POST', 'api/deposit', $data)
+             ->assertStatus(403)
+             ->assertJsonPath('success', false)
+             ->assertJsonPath('message', __('errors.youre_not_customer'));
+    }
+
     public function test_must_successful_create_transaction()
     {
         $user = \Turnover\Models\User\User::factory()->create();

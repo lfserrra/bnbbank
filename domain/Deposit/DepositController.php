@@ -4,15 +4,19 @@ namespace Turnover\Deposit;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Turnover\Traits\ResponseTrait;
+use Turnover\Base\Traits\ResponseTrait;
 
 class DepositController extends Controller {
 
     use ResponseTrait;
 
-    public function store(DepositRequest $request, DepositService $service): JsonResponse
+    public function __construct(
+        private DepositService $service
+    ){}
+
+    public function store(DepositRequest $request): JsonResponse
     {
-        $transaction = $service->deposit($request);
+        $transaction = $this->service->deposit($request);
 
         return $this->successResponse(['transaction' => $transaction]);
     }
