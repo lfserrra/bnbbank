@@ -1,13 +1,13 @@
 <?php
 
-namespace Turnover\Models\Balance;
+namespace Turnover\Models\Transaction;
 
 use League\Fractal\TransformerAbstract;
-use Turnover\Models\BalanceType\BalanceType;
+use Turnover\Models\TransactionType\TransactionType;
 
-class BalanceTransformer extends TransformerAbstract {
+class TransactionTransformer extends TransformerAbstract {
 
-    public function transform(Balance $model): array
+    public function transform(Transaction $model): array
     {
         return [
             'id'                 => $model->id,
@@ -17,9 +17,9 @@ class BalanceTransformer extends TransformerAbstract {
             'type_description'   => $model->type->description,
             'customer_id'        => $model->customer_id,
             'customer_name'      => $model->customer->name,
-            'amount'             => $model->amount,
+            'amount'             => number_format($model->amount, 2, '.', ''),
             'description'        => $model->description,
-            'check_url'          => $model->type_id === BalanceType::DEPOSIT ? $model->check?->url : null,
+            'check_url'          => $model->type_id === TransactionType::DEPOSIT ? $model->check?->url : null,
             'created_at'         => $model->created_at,
             'updated_at'         => $model->updated_at,
         ];

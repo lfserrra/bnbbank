@@ -1,15 +1,15 @@
 <?php
 
-namespace Turnover\Models\Balance;
+namespace Turnover\Models\Transaction;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Turnover\Models\BalanceCheck\BalanceCheck;
-use Turnover\Models\BalanceStatus\BalanceStatus;
-use Turnover\Models\BalanceType\BalanceType;
+use Turnover\Models\TransactionCheck\TransactionCheck;
+use Turnover\Models\TransactionStatus\TransactionStatus;
+use Turnover\Models\TransactionType\TransactionType;
 use Turnover\Models\User\User;
 
-class Balance extends Model {
+class Transaction extends Model {
 
     use HasFactory;
 
@@ -17,12 +17,12 @@ class Balance extends Model {
 
     public function type()
     {
-        return $this->belongsTo(BalanceType::class);
+        return $this->belongsTo(TransactionType::class);
     }
 
     public function status()
     {
-        return $this->belongsTo(BalanceStatus::class);
+        return $this->belongsTo(TransactionStatus::class);
     }
 
     public function customer()
@@ -32,6 +32,6 @@ class Balance extends Model {
 
     public function check()
     {
-        return $this->hasOne(BalanceCheck::class);
+        return $this->hasOne(TransactionCheck::class);
     }
 }

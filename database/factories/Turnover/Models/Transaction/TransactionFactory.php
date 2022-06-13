@@ -1,17 +1,17 @@
 <?php
 
-namespace Database\Factories\Turnover\Models\Balance;
+namespace Database\Factories\Turnover\Models\Transaction;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Turnover\Models\Balance\Balance;
-use Turnover\Models\BalanceType\BalanceType;
+use Turnover\Models\Transaction\Transaction;
+use Turnover\Models\TransactionType\TransactionType;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Turnover\Models\Balance\Balance>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Turnover\Models\Transaction\Transaction>
  */
-class BalanceFactory extends Factory {
+class TransactionFactory extends Factory {
 
-    protected $model = Balance::class;
+    protected $model = Transaction::class;
 
     /**
      * Define the model's default state.
@@ -20,10 +20,10 @@ class BalanceFactory extends Factory {
      */
     public function definition()
     {
-        $type_id = $this->faker->numberBetween(1, 3);
+        $type_id = $this->faker->numberBetween(1, 2);
         $amount  = $this->faker->randomFloat(2, 0.01, 1000);
 
-        if ($type_id !== BalanceType::DEPOSIT) {
+        if ($type_id === TransactionType::PURCHASE) {
             $amount = $amount * -1;
         }
 

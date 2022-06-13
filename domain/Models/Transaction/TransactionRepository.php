@@ -1,21 +1,21 @@
 <?php
 
-namespace Turnover\Models\Balance;
+namespace Turnover\Models\Transaction;
 
 use Turnover\Traits\HasTransformerTrait;
 
-class BalanceRepository {
+class TransactionRepository {
 
     use HasTransformerTrait;
 
-    public function __construct(private Balance $model, private BalanceTransformer $transformer)
-    {
+    public function __construct(
+        private Transaction $model,
+        private TransactionTransformer $transformer
+    ){}
 
-    }
-
-    public function show(int $balance_id): array|null
+    public function show(int $transaction_id): array|null
     {
-        $data = $this->model->where('id', $balance_id)
+        $data = $this->model->where('id', $transaction_id)
                             ->where('customer_id', auth()->user()->id)
                             ->firstOrFail();
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Turnover\Models\Balance;
+namespace Turnover\Purchase;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BalanceRequest extends FormRequest {
+class PurchaseRequest extends FormRequest {
 
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,6 @@ class BalanceRequest extends FormRequest {
         return [
             'amount'      => 'required|numeric|min:0.01|max:9999999999',
             'description' => 'required|max:255',
-            'check'       => 'required|image'
         ];
     }
 }

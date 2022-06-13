@@ -4,10 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Turnover\Models\Balance\Balance;
-use Turnover\Models\BalanceType\BalanceType;
+use Turnover\Models\Transaction\Transaction;
+use Turnover\Models\TransactionType\TransactionType;
 
-class BalanceCheckSeeder extends Seeder {
+class TransactionCheckSeeder extends Seeder {
 
     /**
      * Run the database seeds.
@@ -16,10 +16,10 @@ class BalanceCheckSeeder extends Seeder {
      */
     public function run()
     {
-        $balances = Balance::where('type_id', BalanceType::DEPOSIT)->get();
+        $transactions = Transaction::where('type_id', TransactionType::DEPOSIT)->get();
 
-        foreach ($balances as $balance) {
-            $balance->check()->create([
+        foreach ($transactions as $transaction) {
+            $transaction->check()->create([
                 'url' => 'checks/generated_by_seeder.jpg'
             ]);
         }

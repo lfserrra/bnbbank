@@ -19,7 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('balances', [\Turnover\Models\Balance\BalanceController::class, 'index']);
-    Route::get('balances/{balance_id}', [\Turnover\Models\Balance\BalanceController::class, 'show']);
-    Route::post('balances', [\Turnover\Models\Balance\BalanceController::class, 'store']);
+    Route::get('transactions', [\Turnover\Models\Transaction\TransactionController::class, 'index']);
+    Route::get('transactions/{transactions_id}', [\Turnover\Models\Transaction\TransactionController::class, 'show']);
+
+    Route::post('deposit', [\Turnover\Deposit\DepositController::class, 'store']);
+    Route::post('purchases', [\Turnover\Purchase\PurchaseController::class, 'store']);
 });

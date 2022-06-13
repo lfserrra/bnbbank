@@ -1,12 +1,12 @@
 <?php
 
-namespace Turnover\Models\BalanceStatus;
+namespace Turnover\Models\TransactionStatus;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BalanceStatus extends Model {
+class TransactionStatus extends Model {
 
-    protected $table    = 'balance_status';
+    protected $table    = 'transaction_status';
     protected $fillable = ['description'];
 
     const PENDING  = 1;

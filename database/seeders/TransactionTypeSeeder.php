@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Turnover\Models\TransactionType\TransactionType;
 
-class BalanceSeeder extends Seeder {
+class TransactionTypeSeeder extends Seeder {
 
     /**
      * Run the database seeds.
@@ -14,6 +15,7 @@ class BalanceSeeder extends Seeder {
      */
     public function run()
     {
-        \Turnover\Models\Balance\Balance::factory(20)->create();
+        TransactionType::create(['description' => 'Deposit']);
+        TransactionType::create(['description' => 'Purchase']);
     }
 }

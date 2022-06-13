@@ -13,22 +13,22 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('balance_status', function (Blueprint $table) {
+        Schema::create('transaction_status', function (Blueprint $table) {
             $table->id();
             $table->string('description', 10);
             $table->timestamps();
         });
 
-        Schema::create('balance_types', function (Blueprint $table) {
+        Schema::create('transaction_types', function (Blueprint $table) {
             $table->id();
             $table->string('description', 10);
             $table->timestamps();
         });
 
-        Schema::create('balances', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('status_id')->constrained('balance_status');
-            $table->foreignId('type_id')->constrained('balance_types');
+            $table->foreignId('status_id')->constrained('transaction_status');
+            $table->foreignId('type_id')->constrained('transaction_types');
             $table->foreignId('customer_id')->constrained('users');
             $table->decimal('amount', 15, 2);
             $table->string('description', 50);
@@ -36,9 +36,9 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('balance_checks', function (Blueprint $table) {
+        Schema::create('transaction_checks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('balance_id')->constrained('balances');
+            $table->foreignId('transaction_id')->constrained('transactions');
             $table->text('url');
             $table->timestamps();
         });
@@ -51,9 +51,9 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('balance_checks');
-        Schema::dropIfExists('balances');
-        Schema::dropIfExists('balance_types');
-        Schema::dropIfExists('balance_status');
+        Schema::dropIfExists('transaction_checks');
+        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('transaction_types');
+        Schema::dropIfExists('transaction_status');
     }
 };
