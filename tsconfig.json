@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "isolatedModules": true,
+        "target": "ESNext",
+        "module": "ESNext",
+        "strict": true,
+        "jsx": "preserve",
+        "moduleResolution": "Node",
+        "allowSyntheticDefaultImports": true
+    }
+}

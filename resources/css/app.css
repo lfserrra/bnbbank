@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.header-login {
+    @apply bg-blue-400 text-3xl text-white pt-20 pb-8 font-light text-center;
+}
+
+.input-rounded {
+    @apply border rounded-full border-blue-400 border-opacity-80 py-3 px-5 placeholder:text-blue-400 placeholder:opacity-50;
+}
+
+.button {
+    @apply w-full bg-blue-400 text-white text-xs font-semibold p-4 rounded;
+}
+
+.link-login {
+    @apply flex justify-center mt-6 text-blue-400 hover:underline;
+}

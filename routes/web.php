@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::post('auth/login', [\Turnover\Auth\LoginController::class, 'login']);
 Route::post('auth/logout', [\Turnover\Auth\LoginController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('auth/register', [\Turnover\Auth\RegisterController::class, 'store']);
+
+Route::get('/{vue?}', function () {
+    return view('index');
+})->where(['vue' => '.*']);
