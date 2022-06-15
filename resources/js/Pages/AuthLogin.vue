@@ -1,10 +1,6 @@
 <template>
     <form @submit.prevent="submit">
-        <div class="w-full">
-            <div class="header-login">
-                BNB Bank
-            </div>
-        </div>
+        <div class="header-login">BNB Bank</div>
 
         <div class="flex flex-col p-8 space-y-4">
             <input type="text" class="input-rounded" placeholder="username" v-model="form.username"/>

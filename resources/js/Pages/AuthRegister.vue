@@ -1,8 +1,6 @@
 <template>
     <form @submit.prevent="submit">
-        <div class="w-full">
-            <div class="header-login">BNB Bank</div>
-        </div>
+        <div class="header-login">BNB Bank</div>
 
         <div class="flex flex-col p-8 space-y-4">
             <input type="text" class="input-rounded" placeholder="name" v-model="form.name"/>
@@ -27,9 +25,8 @@
 </template>
 
 <script lang="ts">
-import axios from "../services/axios";
-
 import {defineComponent} from 'vue'
+import axios from "../services/axios";
 
 type CustomerRegister = {
     name: string;

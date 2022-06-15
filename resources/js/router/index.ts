@@ -5,22 +5,47 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/auth/login",
         name: "login",
-        component: () => import("../components/AuthLogin.vue"),
+        component: () => import("../Pages/AuthLogin.vue"),
     },
     {
         path: "/auth/register",
         name: "register",
-        component: () => import("../components/AuthRegister.vue"),
+        component: () => import("../Pages/AuthRegister.vue"),
     },
     {
         path: "/",
         name: "index",
-        component: () => import("../components/Home.vue"),
+        component: () => import("../Pages/Home.vue"),
     },
     {
-        path: "/home2",
-        name: "home2",
-        component: () => import("../components/Home2.vue"),
+        path: "/expenses",
+        name: "expenses",
+        component: () => import("../Pages/Expenses.vue"),
+    },
+    {
+        path: "/purchase",
+        name: "purchase",
+        component: () => import("../Pages/Purchase.vue"),
+    },
+    {
+        path: "/checks",
+        name: "checks",
+        component: () => import("../Pages/Checks.vue"),
+    },
+    {
+        path: "/deposit",
+        name: "deposit",
+        component: () => import("../Pages/Deposit.vue"),
+    },
+    {
+        path: "/deposit-completed",
+        name: "deposit-completed",
+        component: () => import("../Pages/DepositCompleted.vue"),
+    },
+    {
+        path: "/admin",
+        name: "admin",
+        component: () => import("../Pages/HomeAdmin.vue"),
     },
 ];
 

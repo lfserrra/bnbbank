@@ -30,7 +30,7 @@ class PurchaseService {
                 'status_id'   => TransactionStatus::ACCEPTED,
                 'type_id'     => TransactionType::PURCHASE,
                 'customer_id' => auth()->user()->id,
-                'amount'      => $data['amount'],
+                'amount'      => ($data['amount'] * -1),
                 'description' => $data['description'],
             ]);
 

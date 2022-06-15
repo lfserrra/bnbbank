@@ -1,16 +1,16 @@
 import {createStore} from "vuex";
 
 export type State = {
-    helloMessage: string
+    showMenu: boolean
 };
 
 export const store = createStore({
     state: <State>{
-        helloMessage: 'Hello My friend'
+        showMenu: false
     },
     mutations: {
-        testeChange(state, payload: string) {
-            state.helloMessage = payload;
+        toggleMenu(state): void {
+            state.showMenu = !state.showMenu;
         }
     },
     actions: {},
