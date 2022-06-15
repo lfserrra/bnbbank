@@ -47,6 +47,12 @@ const routes: Array<RouteRecordRaw> = [
         name: "admin",
         component: () => import("../Pages/HomeAdmin.vue"),
     },
+
+    {
+        path: "/admin/check-details",
+        name: "check-details",
+        component: () => import("../Pages/CheckDatail.vue"),
+    },
 ];
 
 export const router = createRouter({

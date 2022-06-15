@@ -3,30 +3,39 @@
         <div class="header relative header-light">
             <MenuButton class="absolute top-0 left-0"/>
 
-            <span class="header-title">Check Deposited</span>
-
-            <div class="header-info">
-                <div>
-                    <span class="header-info-title">Current balance</span>
-                    <span class="header-info-value">{{ formatValue(6320) }}</span>
-                </div>
-            </div>
+            <span class="header-title">Check Details</span>
         </div>
 
         <div class="pb-20 info-list px-5">
-            <DetailListItem title="Amount" value="0,00 USD" observation="* The money will be deposited in your account once the check is accepted.">
-                <Icon :icon="{ name: 'money', size: 6}"/>
+            <DetailListItem title="Customer" value="customer1">
+                <Icon :icon="{ name: 'user'}"/>
             </DetailListItem>
 
-            <DetailListItem title="DESCRIPTION" value="Gits's">
-                <Icon :icon="{ name: 'star', size: 6}"/>
+            <DetailListItem title="Customer email" value="customer1@email.com" :action="true">
+                <Icon :icon="{ name: 'email'}"/>
+            </DetailListItem>
+
+            <DetailListItem title="Account" value="965498745244" :action="true">
+                <Icon :icon="{ name: 'document-text'}"/>
+            </DetailListItem>
+
+            <DetailListItem title="Reported Amount" value="$300,00 USD">
+                <Icon :icon="{ name: 'money', size: 6}"/>
             </DetailListItem>
 
             <img src="https://spaces.arenavirtual.net/0001/noticias/preco-do-campeao1655132046.jpg" class="upload-preview">
         </div>
 
         <div class="footer">
-            <button class="button">GO HOME</button>
+            <button class="button button-inverter">
+                <Icon :icon="{ name: 'close-2'}"/>
+                REJECT
+            </button>
+
+            <button class="button">
+                <Icon :icon="{ name: 'accept-2'}"/>
+                ACCEPT
+            </button>
         </div>
     </div>
 </template>

@@ -6,6 +6,10 @@
     @apply min-h-screen;
 }
 
+.button-menu, .button-filter {
+    @apply hover:opacity-70
+}
+
 .sidebar {
     @apply absolute min-h-screen bg-blue-400 z-30 text-white;
     width: 220px;
@@ -26,7 +30,15 @@
 }
 
 .sidebar-item {
-    @apply flex w-full uppercase text-xs py-4 px-5 items-center;
+    @apply flex w-full uppercase text-xs py-4 px-5 items-center hover:opacity-80 focus:opacity-80;
+}
+
+.sidebar:hover .sidebar-item.disabled {
+    @apply opacity-30 text-gray-500;
+}
+
+.sidebar-item.disabled {
+    @apply hover:cursor-not-allowed hover:opacity-50 focus:opacity-50;
 }
 
 .sidebar-item-icon {
@@ -96,7 +108,7 @@
 }
 
 .income-button {
-    @apply flex flex-col text-xs items-center space-y-1 uppercase p-2;
+    @apply flex flex-col text-xs items-center space-y-1 uppercase p-2 hover:text-blue-500 focus:text-blue-500;
     min-width: 130px;
 }
 
@@ -105,13 +117,24 @@
 }
 
 .button {
-    @apply w-full bg-blue-400 text-white text-xs font-semibold p-4 rounded;
+    @apply w-full flex items-center justify-center bg-blue-400 hover:bg-blue-500 focus:bg-blue-500 text-white text-xs font-semibold py-4 border border-transparent rounded;
+    transition: background-color .2s;
+}
+
+.button-inverter {
+    @apply bg-transparent border border-blue-400 text-blue-400 hover:bg-blue-100 focus:bg-blue-100;
+    transition: background-color .2s;
 }
 
 .button-float {
-    @apply absolute flex items-center justify-center bg-blue-400 text-white rounded-full right-0 bottom-0 mr-5 mb-5 z-10;
+    @apply absolute flex items-center justify-center bg-blue-400 text-white rounded-full right-0 bottom-0 mr-5 mb-5 z-10 hover:bg-blue-500 focus:bg-blue-500;
     width: 70px;
     height: 70px;
+    transition: background-color .2s;
+}
+
+.button-action {
+    @apply text-blue-400 hover:text-blue-500 focus:text-blue-500
 }
 
 .link-login {
@@ -165,6 +188,23 @@
 
 .input-group-icon input {
     @apply w-full pl-8 py-0.5 text-lg border-b-2 border-blue-400 border-opacity-20 focus:outline-0 focus:border-opacity-100;
+    transition: border-bottom-color .2s;
+}
+
+.input-group-icon label:hover input {
+    @apply border-opacity-60 focus:border-opacity-100;
+}
+
+.info-list .input-group-icon label > div {
+    @apply opacity-100;
+}
+
+.info-list label div:not(.value) {
+    @apply text-xs  opacity-50;
+}
+
+.info-list .value {
+    @apply w-full pl-8 text-sm text-blue-400 font-semibold
 }
 
 .input-group-icon small {
@@ -212,4 +252,20 @@
 
 .button-link {
     @apply flex items-center py-2 text-xs text-blue-400 opacity-50 uppercase space-x-2 hover:underline  mb-10;
+}
+
+.info-list {
+
+}
+
+.input-group-icon.has-action label:hover {
+    @apply hover:cursor-pointer text-blue-300;
+}
+
+.input-group-icon.has-action:hover .button-action {
+    @apply text-blue-500 text-blue-500
+}
+
+.footer {
+    @apply absolute bottom-0 space-x-2 p-5 w-full flex;
 }

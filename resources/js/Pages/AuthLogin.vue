@@ -16,7 +16,7 @@
         </div>
 
         <div class="link-login">
-            <router-link to="/auth/register">Back to register an account</router-link>
+            <router-link to="/auth/register">Create an account</router-link>
         </div>
     </form>
 </template>
