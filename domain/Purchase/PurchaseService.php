@@ -3,6 +3,7 @@
 namespace Turnover\Purchase;
 
 use DB;
+use Gate;
 use Illuminate\Validation\ValidationException;
 use Turnover\Base\Exceptions\TurnoverErrorException;
 use Turnover\Models\Transaction\Transaction;
@@ -17,7 +18,7 @@ class PurchaseService {
 
     public function purchase(array $data): Transaction
     {
-        throw_if(auth()->user()->is_admin, new TurnoverErrorException(__('errors.youre_not_customer'), 403));
+        Gate::authorize('can-purchase');
 
         if (auth()->user()->balance < $data['amount']) {
             throw ValidationException::withMessages([

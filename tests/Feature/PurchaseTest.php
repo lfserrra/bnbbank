@@ -45,9 +45,7 @@ class PurchaseTest extends TestCase {
         ];
 
         $this->json('POST', 'api/purchases', $data)
-             ->assertStatus(403)
-             ->assertJsonPath('success', false)
-             ->assertJsonPath('message', __('errors.youre_not_customer'));
+             ->assertStatus(403);
     }
 
     public function test_must_fail_because_customer_dont_have_enough_money()

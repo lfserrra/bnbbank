@@ -3,6 +3,7 @@
 namespace Turnover\Deposit;
 
 use DB;
+use Gate;
 use Illuminate\Http\UploadedFile;
 use Turnover\Base\Exceptions\TurnoverErrorException;
 use Turnover\Models\Transaction\Transaction;
@@ -19,7 +20,7 @@ class DepositService {
 
     public function deposit(DepositRequest $request): Transaction
     {
-        throw_if(auth()->user()->is_admin, new TurnoverErrorException(__('errors.youre_not_customer'), 403));
+        Gate::authorize('can-deposit');
 
         return DB::transaction(function () use ($request) {
             $transaction = $this->model->create([

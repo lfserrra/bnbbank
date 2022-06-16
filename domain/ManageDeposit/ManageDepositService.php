@@ -4,6 +4,7 @@ namespace Turnover\ManageDeposit;
 
 use DB;
 
+use Gate;
 use Turnover\Base\Exceptions\TurnoverErrorException;
 use Turnover\Models\Transaction\Transaction;
 use Turnover\Models\TransactionStatus\TransactionStatus;
@@ -13,11 +14,13 @@ class ManageDepositService {
 
     public function __construct(
         private Transaction $model
-    ){}
+    )
+    {
+    }
 
     public function accept(int $transaction_id): bool
     {
-        throw_unless(auth()->user()->is_admin, new TurnoverErrorException(__('errors.unauthorized'), 403));
+        Gate::authorize('can-accept-deposit');
 
         return DB::transaction(function () use ($transaction_id) {
             $transaction = $this->model->where('type_id', TransactionType::DEPOSIT)
@@ -36,7 +39,7 @@ class ManageDepositService {
 
     public function reject(int $transaction_id): bool
     {
-        throw_unless(auth()->user()->is_admin, new TurnoverErrorException(__('errors.unauthorized'), 403));
+        Gate::authorize('can-reprove-deposit');
 
         return DB::transaction(function () use ($transaction_id) {
             $transaction = $this->model->where('type_id', TransactionType::DEPOSIT)

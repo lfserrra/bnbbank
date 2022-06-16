@@ -53,9 +53,7 @@ class DepositTest extends TestCase {
         ];
 
         $this->json('POST', 'api/deposit', $data)
-             ->assertStatus(403)
-             ->assertJsonPath('success', false)
-             ->assertJsonPath('message', __('errors.youre_not_customer'));
+             ->assertStatus(403);
     }
 
     public function test_must_successful_create_transaction()

@@ -30,10 +30,7 @@ class AcceptDepositTest extends TestCase {
         ]);
 
         $this->json('POST', "api/deposit/$transaction->id/accept")
-             ->assertStatus(403)
-             ->assertJsonPath('success', false)
-             ->assertJsonStructure(['success', 'message'])
-             ->assertJsonPath('message', __('errors.unauthorized'));
+             ->assertStatus(403);
     }
 
     public function test_must_fail_because_transaction_to_accept_was_not_found()
@@ -115,10 +112,7 @@ class AcceptDepositTest extends TestCase {
         ]);
 
         $this->json('POST', "api/deposit/$transaction->id/reject")
-             ->assertStatus(403)
-             ->assertJsonPath('success', false)
-             ->assertJsonStructure(['success', 'message'])
-             ->assertJsonPath('message', __('errors.unauthorized'));
+             ->assertStatus(403);
     }
 
     public function test_must_fail_because_transaction_to_reject_was_not_found()

@@ -2,12 +2,13 @@
 
 namespace Turnover\Transaction;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Turnover\Base\Traits\HasTransformerTrait;
 use Turnover\Models\Transaction\Transaction;
 
 class TransactionRepository {
 
-    use HasTransformerTrait;
+    use HasTransformerTrait, AuthorizesRequests;
 
     public function __construct(
         private Transaction            $model,
@@ -18,17 +19,12 @@ class TransactionRepository {
 
     public function show(int $transaction_id): array|null
     {
-        $customer_id = null;
+        $transaction = $this->model->where('id', $transaction_id)
+                                   ->first();
 
-        if ( ! auth()->user()->is_admin) {
-            $customer_id = auth()->user()->id;
-        }
+        $this->authorize('show', $transaction);
 
-        $data = $this->model->where('id', $transaction_id)
-                            ->when($customer_id, fn($q) => $q->where('customer_id', $customer_id))
-                            ->firstOrFail();
-
-        return $this->applyTransform($data, false);
+        return $this->applyTransform($transaction, false);
     }
 
     public function list(array $filters = []): array
@@ -36,6 +32,10 @@ class TransactionRepository {
         $customer_id = $filters['customer_id'] ?? 0;
         $type_id     = $filters['type_id'] ?? 0;
         $status_id   = $filters['status_id'] ?? 0;
+
+        if ( ! auth()->user()->is_admin) {
+            $customer_id = auth()->user()->id;
+        }
 
         $data = $this->model->with('type', 'status', 'customer', 'check')
                             ->when($customer_id, fn($q) => $q->where('customer_id', $customer_id))

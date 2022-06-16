@@ -55,7 +55,29 @@ class TransactionTest extends TestCase {
         ]);
 
         $this->json('GET', 'api/transactions/' . $transaction->id)
-             ->assertNotFound();
+             ->assertStatus(403);
+    }
+
+    public function test_must_admin_visualize_a_transaction()
+    {
+        $user = \Turnover\Models\User\User::factory()->create(['is_admin' => true]);
+        Sanctum::actingAs($user, ['*']);
+
+        $transaction = Transaction::create([
+            'status_id'   => TransactionStatus::ACCEPTED,
+            'type_id'     => TransactionType::PURCHASE,
+            'customer_id' => 2,
+            'amount'      => 100.99,
+            'description' => 'First deposit',
+        ]);
+
+        $this->json('GET', 'api/transactions/' . $transaction->id)
+             ->assertStatus(200)
+            ->assertJsonPath('success', true)
+            ->assertJsonStructure(['success', 'transaction'])
+            ->assertJsonPath('transaction.status_id', TransactionStatus::ACCEPTED)
+            ->assertJsonPath('transaction.type_id', TransactionType::PURCHASE)
+            ->assertJsonPath('transaction.customer_id', 2);
     }
 
     public function test_must_visualize_my_transactions_list()
