@@ -12,17 +12,23 @@ class TransactionController extends Controller {
 
     public function __construct(
         private TransactionRepository $transactionRepository
-    ){}
+    )
+    {
+    }
 
     public function index(): JsonResponse
     {
         $filters = request()->only('type_id', 'status_id', 'customer_id');
 
-        if(!auth()->user()->is_admin) {
+        if ( ! auth()->user()->is_admin) {
             $filters['customer_id'] = auth()->user()->id;
         }
 
         $data = $this->transactionRepository->list($filters);
+
+        if ( ! auth()->user()->is_admin) {
+            $data['balance'] = auth()->user()->balance;
+        }
 
         return $this->successResponse($data);
     }

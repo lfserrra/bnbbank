@@ -6,65 +6,64 @@
             <span class="header-title">Purchase</span>
 
             <div class="header-info">
-                <div>
-                    <span class="header-info-title">Current balance</span>
-                    <span class="header-info-value">{{ formatValue(6320) }}</span>
-                </div>
+                <CurrentBalance/>
             </div>
         </div>
 
         <form @submit.prevent="submit" class="pt-5">
-            <div class="input-group-icon px-5">
-                <label :class="{'has-errors': getError(this.errors, 'amount') !== ''}">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                        AMOUNT
-                    </div>
+            <div class="px-5">
+                <div class="input-group-icon ">
+                    <label :class="{'has-errors': getError(this.errors, 'amount') !== ''}">
+                        <div>
+                            <Icon :icon="{ name: 'money', size: 6}"/>
+                            AMOUNT
+                        </div>
 
-                    <input type="text" v-model="form.amount" placeholder="0.00">
+                        <input type="text" v-model="form.amount" placeholder="0.00">
 
-                    <p v-if="getError(this.errors, 'amount') !== ''">{{ getError(this.errors, 'amount') }}</p>
-                </label>
+                        <p v-if="getError(this.errors, 'amount') !== ''">{{ getError(this.errors, 'amount') }}</p>
+                    </label>
 
-                <span class="input-group-append">USD</span>
-            </div>
+                    <span class="input-group-append">USD</span>
+                </div>
 
-            <div class="input-group-icon px-5">
-                <label>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        </svg>
-                        DATE
-                    </div>
+                <div class="input-group-icon">
+                    <label>
+                        <div>
+                            <Icon :icon="{ name: 'calendar', size: 6}"/>
+                            DATE
+                        </div>
 
-                    <input type="text" v-model="form.date" readonly>
-                </label>
+                        <input type="text" v-model="form.date" readonly>
+                    </label>
 
-                <span class="input-group-append"></span>
-            </div>
+                    <span class="input-group-append"></span>
+                </div>
 
-            <div class="input-group-icon px-5">
-                <label :class="{'has-errors': getError(this.errors, 'description') !== ''}">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                        </svg>
-                        DESCRIPTION
-                    </div>
+                <div class="input-group-icon">
+                    <label :class="{'has-errors': getError(this.errors, 'description') !== ''}">
+                        <div>
+                            <Icon :icon="{ name: 'star', size: 6}"/>
+                            DESCRIPTION
+                        </div>
 
-                    <input type="text" v-model="form.description">
+                        <input type="text" v-model="form.description">
 
-                    <p v-if="getError(this.errors, 'description') !== ''">{{ getError(this.errors, 'description') }}</p>
-                </label>
+                        <p v-if="getError(this.errors, 'description') !== ''">{{ getError(this.errors, 'description') }}</p>
+                    </label>
+                </div>
+
+                <p class="message-success" v-if="finished">Purchase successfully. <br>Redirecting in 5 seconds...</p>
             </div>
 
             <div class="footer">
-                <button class="button" :class="{'button-disabled': isLoading}">
+                <button class="button" :class="{'button-disabled': isLoading}" v-if="!finished">
                     <IconLoading v-if="isLoading" class="mr-2"/>
                     ADD PURCHASE
+                </button>
+
+                <button class="button" @click.prevent="goHome" v-if="finished">
+                    GO HOME
                 </button>
             </div>
         </form>
@@ -79,6 +78,8 @@ import {getError} from "../utils/getError";
 import {getDate} from "../utils/getDate";
 import axios from "../services/axios";
 import IconLoading from "../components/IconLoading.vue";
+import Icon from "../components/Icon.vue";
+import CurrentBalance from "../components/CurrentBalance.vue";
 
 type PurchaseType = {
     amount: number | null;
@@ -87,7 +88,7 @@ type PurchaseType = {
 }
 
 export default defineComponent({
-    components: {IconLoading, MenuButton},
+    components: {CurrentBalance, Icon, IconLoading, MenuButton},
 
     data() {
         return {
@@ -98,7 +99,8 @@ export default defineComponent({
             },
 
             errors: {},
-            isLoading: false
+            isLoading: false,
+            finished: false,
         }
     },
 
@@ -113,7 +115,17 @@ export default defineComponent({
 
             axios.post('/api/purchases', this.form)
                 .then((response) => {
+                    this.isLoading = false;
 
+                    this.finished = true;
+
+                    if (response.data.balance) {
+                        this.$store.commit('setBalance', response.data.balance);
+                    }
+
+                    setTimeout(() => {
+                        this.$router.push('/')
+                    }, 5000);
                 })
                 .catch((error) => {
                     this.isLoading = false;
@@ -122,6 +134,10 @@ export default defineComponent({
                         this.errors = error.response.data.errors;
                     }
                 });
+        },
+
+        goHome(): void {
+            this.$router.push('/')
         },
 
         formatValue,

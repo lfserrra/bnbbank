@@ -24,8 +24,12 @@ export const store = createStore({
             localStorage.setItem('user', user);
         },
 
-        logout(state): void {
+        setBalance(state, payload: number): void {
+            state.user.balance = payload;
 
+            const user = JSON.stringify(state.user);
+
+            localStorage.setItem('user', user);
         },
     },
     actions: {},

@@ -2327,10 +2327,32 @@ __webpack_require__.r(__webpack_exports__);
       _services_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get('/api/transactions?' + params).then(function (response) {
         _this.transactions = response.data.data;
         _this.isLoading = false;
+
+        _this.totalTransactions();
       });
     },
     handleTransaction: function handleTransaction(transaction) {
       this.$emit('handleTransaction', transaction);
+    },
+    totalTransactions: function totalTransactions() {
+      var incomes = this.transactions.filter(function (t) {
+        return t.amount > 0;
+      }).map(function (t) {
+        return t.amount;
+      }).reduce(function (prev, current) {
+        return Number(prev) + Number(current);
+      }, 0);
+      var expenses = this.transactions.filter(function (t) {
+        return t.amount < 0;
+      }).map(function (t) {
+        return t.amount * -1;
+      }).reduce(function (prev, current) {
+        return Number(prev) + Number(current);
+      }, 0);
+      this.$emit('loadedTransactions', {
+        incomes: incomes,
+        expenses: expenses
+      });
     }
   }
 }));

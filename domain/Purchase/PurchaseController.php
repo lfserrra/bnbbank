@@ -13,7 +13,7 @@ class PurchaseController extends Controller {
     use ResponseTrait, HasTransformerTrait;
 
     public function __construct(
-        private PurchaseService $service,
+        private PurchaseService        $service,
         private TransactionTransformer $transformer
     ){}
 
@@ -21,6 +21,9 @@ class PurchaseController extends Controller {
     {
         $transaction = $this->service->purchase($request->validated());
 
-        return $this->successResponse(['transaction' => $this->applyTransform($transaction, false)]);
+        return $this->successResponse([
+            'transaction' => $this->applyTransform($transaction, false),
+            'balance'     => auth()->user()->balance
+        ]);
     }
 }

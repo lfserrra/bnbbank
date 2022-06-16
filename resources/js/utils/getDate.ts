@@ -1,13 +1,21 @@
 export function getDate(): string {
     let dateObj = new Date();
-    let month = getMonth(dateObj.getUTCMonth()); //months from 1-12
+    let month = getOnlyMonth(dateObj.getUTCMonth());
     let day = dateObj.getUTCDate();
     let year = dateObj.getUTCFullYear();
 
     return month + ' ' + day + ', ' + year;
 }
 
-function getMonth(month: number): string {
+export function getMonth(): string {
+    let dateObj = new Date();
+    let month = getOnlyMonth(dateObj.getUTCMonth());
+    let year = dateObj.getUTCFullYear();
+
+    return month + ', ' + year;
+}
+
+function getOnlyMonth(month: number): string {
     const months = [
         'January',
         'February',

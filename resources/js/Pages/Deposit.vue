@@ -6,10 +6,7 @@
             <span class="header-title">Check Deposit</span>
 
             <div class="header-info">
-                <div>
-                    <span class="header-info-title">Current balance</span>
-                    <span class="header-info-value">{{ formatValue(6320) }}</span>
-                </div>
+                <CurrentBalance />
             </div>
         </div>
 
@@ -69,6 +66,7 @@ import {defineComponent} from 'vue'
 import MenuButton from "../components/MenuButton.vue";
 import {formatValue} from "../utils/formarValue";
 import Icon from "../components/Icon.vue";
+import CurrentBalance from "../components/CurrentBalance.vue";
 
 type DepositType = {
     amount: number | null;
@@ -82,7 +80,7 @@ type DepositFileType = {
 }
 
 export default defineComponent({
-    components: {Icon, MenuButton},
+    components: {CurrentBalance, Icon, MenuButton},
 
     data() {
         return {

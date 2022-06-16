@@ -40,7 +40,6 @@ import IconLoading from "./IconLoading.vue";
 import {TransactionTypeDTO} from "../dtos/Transaction.dto";
 import {FiltersTypeDTO} from "../dtos/Filters.dto";
 
-
 export default defineComponent({
     components: {IconLoading},
 
@@ -85,11 +84,27 @@ export default defineComponent({
                 this.transactions = <TransactionTypeDTO[]>response.data.data;
 
                 this.isLoading = false;
+
+                this.totalTransactions();
             });
         },
 
-        handleTransaction(transaction: TransactionTypeDTO) {
+        handleTransaction(transaction: TransactionTypeDTO): void {
             this.$emit('handleTransaction', transaction);
+        },
+
+        totalTransactions(): void {
+            const incomes = this.transactions
+                .filter((t) => t.amount > 0)
+                .map(t => t.amount)
+                .reduce((prev, current) => Number(prev) + Number(current), 0);
+
+            const expenses = this.transactions
+                .filter((t) => t.amount < 0)
+                .map(t => (t.amount * -1))
+                .reduce((prev, current) => Number(prev) + Number(current), 0);
+
+            this.$emit('loadedTransactions', {incomes, expenses});
         }
     }
 })
