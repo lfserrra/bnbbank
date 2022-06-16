@@ -85,4 +85,30 @@ class DepositTest extends TestCase {
         Storage::disk('local')->assertExists($transaction_check->url);
     }
 
+    public function test_must_successful_download_check_image()
+    {
+        $user = \Turnover\Models\User\User::factory()->create();
+        Sanctum::actingAs($user, ['*']);
+        Storage::fake('local');
+        $file = UploadedFile::fake()->image('check.jpg');
+
+        $data = [
+            'amount'      => 50.99,
+            'description' => 'First deposit',
+            'check'       => $file
+        ];
+
+        $result = $this->json('POST', 'api/deposit', $data)
+                       ->assertStatus(200)
+                       ->assertJsonPath('success', true)
+                       ->assertJsonStructure(['success', 'transaction'])
+                       ->assertJsonPath('transaction.status_id', TransactionStatus::PENDING)
+                       ->assertJsonPath('transaction.type_id', TransactionType::DEPOSIT)
+                       ->assertJsonPath('transaction.customer_id', $user->id);
+
+        $transaction_id = $result['transaction']['id'];
+
+        $this->get("api/transactions/$transaction_id/image")
+             ->assertStatus(200);
+    }
 }
