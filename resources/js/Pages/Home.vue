@@ -25,7 +25,7 @@
             <HeaderTotalTransaction title="Expenses" :value="780" button_text="Purchase" class="expenses" @handleButton="purchase"/>
         </div>
 
-        <Transactions/>
+        <Transactions :filters="{status_id: 2}"/>
     </div>
 </template>
 

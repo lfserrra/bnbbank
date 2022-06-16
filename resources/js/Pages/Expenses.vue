@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <Transactions/>
+        <Transactions :filters="{type_id: 2}"/>
 
         <FloatButton @click.prevent="goToPurchase"/>
     </div>

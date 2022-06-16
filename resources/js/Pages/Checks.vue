@@ -15,13 +15,13 @@
             </div>
 
             <ul class="header-status">
-                <li>PENDING</li>
-                <li class="active">ACCEPTED</li>
-                <li>REJECTED</li>
+                <li :class="{'active': status_id === 1}" @click.prevent="changeTab(1)">PENDING</li>
+                <li :class="{'active': status_id === 2}" @click.prevent="changeTab(2)">ACCEPTED</li>
+                <li :class="{'active': status_id === 3}" @click.prevent="changeTab(3)">REJECTED</li>
             </ul>
         </div>
 
-        <Transactions :show-title="false"/>
+        <Transactions v-if="showTransaction" ref="transactions" :show-title="false" :filters="{type_id: 1, status_id: status_id}"/>
 
         <FloatButton @click.prevent="goToDeposit"/>
     </div>
@@ -36,9 +36,25 @@ import FloatButton from "../components/FloatButton.vue";
 export default defineComponent({
     components: {FloatButton, MenuButton, Transactions},
 
+    data() {
+        return {
+            status_id: 2,
+            showTransaction: true
+        }
+    },
+
     methods: {
         goToDeposit(): void {
             this.$router.push('/deposit');
+        },
+
+        changeTab(status_id: number) {
+            this.status_id = status_id;
+            this.showTransaction = false;
+
+            this.$nextTick(() => {
+                this.showTransaction = true;
+            })
         }
     }
 })

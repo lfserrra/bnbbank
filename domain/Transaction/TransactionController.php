@@ -16,9 +16,11 @@ class TransactionController extends Controller {
 
     public function index(): JsonResponse
     {
-        $filters = request()->only('type_id', 'status_id');
+        $filters = request()->only('type_id', 'status_id', 'customer_id');
 
-        $filters['customer_id'] = auth()->user()->id;
+        if(!auth()->user()->is_admin) {
+            $filters['customer_id'] = auth()->user()->id;
+        }
 
         $data = $this->transactionRepository->list($filters);
 

@@ -1,7 +1,12 @@
 import {createApp} from "vue";
-
 import {store} from "./store";
-import {router} from "./router";
+
+const user = localStorage.getItem('user');
+if (user) {
+    store.commit('setUser', JSON.parse(user));
+}
+
+import router from "./router";
 
 import App from './App.vue'
 

@@ -10,14 +10,22 @@ class TransactionRepository {
     use HasTransformerTrait;
 
     public function __construct(
-        private Transaction $model,
+        private Transaction            $model,
         private TransactionTransformer $transformer
-    ){}
+    )
+    {
+    }
 
     public function show(int $transaction_id): array|null
     {
+        $customer_id = null;
+
+        if ( ! auth()->user()->is_admin) {
+            $customer_id = auth()->user()->id;
+        }
+
         $data = $this->model->where('id', $transaction_id)
-                            ->where('customer_id', auth()->user()->id)
+                            ->when($customer_id, fn($q) => $q->where('customer_id', $customer_id))
                             ->firstOrFail();
 
         return $this->applyTransform($data, false);
