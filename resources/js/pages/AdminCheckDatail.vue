@@ -11,6 +11,10 @@
             <span class="ml-4">Loading transaction...</span>
         </div>
 
+        <div class="w-full flex px-5 py-10 text-blue-400 space-4" v-if="!isLoading && !(transaction.id > 0)">
+            <span>transaction not found.</span>
+        </div>
+
         <div class="pb-20 info-list px-5" v-if="transaction.id > 0">
             <DetailListItem title="Customer" :value="transaction.customer_name">
                 <Icon :icon="{ name: 'user'}"/>
@@ -31,7 +35,7 @@
             <p class="message-success" v-if="accepted">Transaction accepted successfully. <br>Redirecting in 5 seconds...</p>
             <p class="message-success" v-if="rejected">Transaction rejected successfully. <br>Redirecting in 5 seconds...</p>
 
-            <img v-if="!accepted && !rejected" src="https://spaces.arenavirtual.net/0001/noticias/preco-do-campeao1655132046.jpg" class="upload-preview">
+            <img v-if="!accepted && !rejected && file.showPreview" :src="file.imagePreview" class="upload-preview">
 
             <p class="message-error" v-if="error !== false">{{ error }}</p>
         </div>
@@ -65,12 +69,12 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
 import MenuButton from "../components/MenuButton.vue";
-import {formatValue} from "../utils/formarValue";
 import DetailListItem from "../components/DetailListItem.vue";
 import Icon from "../components/Icon.vue";
 import axios from "../services/axios";
 import {TransactionTypeDTO} from "../dtos/Transaction.dto";
 import IconLoading from "../components/IconLoading.vue";
+import {DepositFileType} from "../dtos/DepositFile.dto";
 
 export default defineComponent({
     components: {IconLoading, Icon, DetailListItem, MenuButton},
@@ -87,7 +91,13 @@ export default defineComponent({
             isLoading: false,
             accepted: false,
             rejected: false,
-            error: false
+            error: false,
+
+            file: <DepositFileType>{
+                file: null,
+                showPreview: false,
+                imagePreview: null
+            },
         }
     },
 
@@ -99,7 +109,27 @@ export default defineComponent({
                 this.transaction = <TransactionTypeDTO>response.data.transaction;
 
                 this.isLoading = false;
+            }).catch(() => {
+                this.isLoading = false;
             });
+
+            axios.get('/api/transactions/' + this.transaction_id + '/image', {responseType: "blob"})
+                .then(response => {
+                    const file = response.data;
+
+                    if (file != null) {
+                        const reader = new FileReader();
+
+                        reader.onload = (event: ProgressEvent<FileReader>) => {
+                            if (event.target != null) {
+                                this.file.showPreview = true;
+                                this.file.imagePreview = event.target.result;
+                            }
+                        };
+
+                        reader.readAsDataURL(file);
+                    }
+                });
         },
 
         accept(): void {
@@ -148,9 +178,7 @@ export default defineComponent({
 
         goHome(): void {
             this.$router.push('/admin')
-        },
-
-        formatValue
+        }
     }
 })
 </script>

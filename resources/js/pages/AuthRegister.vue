@@ -78,7 +78,7 @@ export default defineComponent({
     },
 
     methods: {
-        submit() {
+        async submit() {
             if (this.isLoading) {
                 return;
             }
@@ -86,17 +86,31 @@ export default defineComponent({
             this.isLoading = true;
             this.errors = {};
 
-            axios.post('/auth/register', this.form)
-                .then((response) => {
-                    console.log(response);
-                })
-                .catch((error) => {
-                    this.isLoading = false;
+            try {
+                await axios.post('/auth/register', this.form);
 
-                    if (error.response.status === 422 && error.response.data.errors) {
-                        this.errors = error.response.data.errors;
-                    }
+                const {data} = await axios.post('/auth/login', {username: this.form.username, password: this.form.password});
+
+                const user = data.user;
+
+                this.$store.commit('setUser', {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    username: user.username,
+                    is_admin: user.is_admin > 0,
+                    balance: parseFloat(user.balance),
+                    token: data.token
                 });
+
+                document.location.reload();
+            } catch (error: any) {
+                this.isLoading = false;
+
+                 if (error && error.response && error.response.status === 422 && error.response.data.errors) {
+                    this.errors = error.response.data.errors;
+                }
+            }
         },
 
         getError

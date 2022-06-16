@@ -6,76 +6,76 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/auth/login",
         name: "login",
-        component: () => import("../Pages/AuthLogin.vue"),
+        component: () => import("../pages/AuthLogin.vue"),
         meta: {requiresAuth: false}
     },
     {
         path: "/auth/register",
         name: "register",
-        component: () => import("../Pages/AuthRegister.vue"),
+        component: () => import("../pages/AuthRegister.vue"),
         meta: {requiresAuth: false}
     },
     {
         path: "/",
         name: "index",
-        component: () => import("../Pages/Home.vue"),
+        component: () => import("../pages/Home.vue"),
         meta: {requiresAuth: true, isAdmin: false}
     },
     {
         path: "/expenses",
         name: "expenses",
-        component: () => import("../Pages/Expenses.vue"),
+        component: () => import("../pages/Expenses.vue"),
         meta: {requiresAuth: true, isAdmin: false}
     },
     {
         path: "/purchase",
         name: "purchase",
-        component: () => import("../Pages/Purchase.vue"),
+        component: () => import("../pages/Purchase.vue"),
         meta: {requiresAuth: true, isAdmin: false}
     },
     {
         path: "/checks",
         name: "checks",
-        component: () => import("../Pages/Checks.vue"),
+        component: () => import("../pages/Checks.vue"),
         meta: {requiresAuth: true, isAdmin: false}
     },
     {
         path: "/deposit",
         name: "deposit",
-        component: () => import("../Pages/Deposit.vue"),
+        component: () => import("../pages/Deposit.vue"),
         meta: {requiresAuth: true, isAdmin: false}
     },
     {
-        path: "/deposit-completed",
+        path: "/deposit-completed/:id(\\d+)",
         name: "deposit-completed",
-        component: () => import("../Pages/DepositCompleted.vue"),
+        component: () => import("../pages/DepositCompleted.vue"),
         meta: {requiresAuth: true, isAdmin: false}
     },
     {
         path: "/admin",
         name: "admin",
-        component: () => import("../Pages/AdminHome.vue"),
+        component: () => import("../pages/AdminHome.vue"),
         meta: {requiresAuth: true, isAdmin: true}
     },
 
     {
         path: "/admin/check-details/:id(\\d+)",
         name: "check-details",
-        component: () => import("../Pages/AdminCheckDatail.vue"),
+        component: () => import("../pages/AdminCheckDatail.vue"),
         meta: {requiresAuth: true, isAdmin: true}
     },
 
     {
         path: "/admin/logout",
         name: "admin-logout",
-        component: () => import("../Pages/Logout.vue"),
+        component: () => import("../pages/Logout.vue"),
         meta: {requiresAuth: true, isAdmin: true}
     },
 
     {
         path: "/logout",
         name: "logout",
-        component: () => import("../Pages/Logout.vue"),
+        component: () => import("../pages/Logout.vue"),
         meta: {requiresAuth: true, isAdmin: false}
     },
 ];

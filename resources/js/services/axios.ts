@@ -2,7 +2,7 @@ import axios, {AxiosInstance} from 'axios'
 import {store} from "../store";
 
 const $axios: AxiosInstance = axios.create({
-    baseURL: `http://test_turnover.test:8000/`,
+    baseURL: `/`,
     headers: {
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest'

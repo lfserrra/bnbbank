@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('transactions', [\Turnover\Transaction\TransactionController::class, 'index']);
     Route::get('transactions', [\Turnover\Transaction\TransactionController::class, 'index']);
     Route::get('transactions/{transaction_id}', [\Turnover\Transaction\TransactionController::class, 'show']);
+    Route::get('transactions/{transaction_id}/image', [\Turnover\Transaction\TransactionController::class, 'image']);
 
     Route::post('deposit/{transaction_id}/accept', [\Turnover\ManageDeposit\ManageDepositController::class, 'accept']);
     Route::post('deposit/{transaction_id}/reject', [\Turnover\ManageDeposit\ManageDepositController::class, 'reject']);

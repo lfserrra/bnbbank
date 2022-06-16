@@ -4,6 +4,7 @@ namespace Turnover\Transaction;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Storage;
 use Turnover\Base\Traits\ResponseTrait;
 
 class TransactionController extends Controller {
@@ -38,5 +39,12 @@ class TransactionController extends Controller {
         $transaction = $this->transactionRepository->show($transaction_id);
 
         return $this->successResponse(['transaction' => $transaction]);
+    }
+
+    public function image(int $transaction_id)
+    {
+        $transaction = $this->transactionRepository->show($transaction_id);
+
+        return Storage::download($transaction['check_url']);
     }
 }

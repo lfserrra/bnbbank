@@ -15,7 +15,7 @@
             </li>
 
             <li v-if="!isLoading && transactions.length === 0 && !isAdmin">
-                No checks found
+                No transaction found
             </li>
 
             <li v-for="transaction in transactions" @click="handleTransaction(transaction)">
