@@ -14,17 +14,5 @@ import Sidebar from "./components/Sidebar.vue";
 
 export default defineComponent({
     components: {Sidebar},
-    computed: {
-        teste(): string {
-            return this.$store.state.helloMessage;
-        }
-    },
-
-    methods: {
-        testeChange(): void {
-            this.$store.commit('testeChange', 'TTTTT')
-            //this.$axios.post('auth/login');
-        }
-    }
 })
 </script>
