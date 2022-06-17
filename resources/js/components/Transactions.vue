@@ -54,6 +54,12 @@ export default defineComponent({
             type: Object as PropType<FiltersTypeDTO>,
             required: false,
             default: {} as FiltersTypeDTO
+        },
+
+        getCustomerBalance: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
 
@@ -87,6 +93,14 @@ export default defineComponent({
 
                 this.totalTransactions();
             });
+
+            if (this.getCustomerBalance) {
+                axios.get('/api/customer/balance').then((response) => {
+                    if (response.data.balance) {
+                        this.$store.commit('setBalance', response.data.balance);
+                    }
+                });
+            }
         },
 
         handleTransaction(transaction: TransactionTypeDTO): void {

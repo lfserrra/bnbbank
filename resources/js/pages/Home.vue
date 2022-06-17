@@ -17,7 +17,7 @@
             <HeaderTotalTransaction title="Expenses" :value="expenses" button_text="Purchase" class="expenses" @handleButton="purchase"/>
         </div>
 
-        <Transactions :filters="{status_id: 2}" @loadedTransactions="loadedTransactions"/>
+        <Transactions :filters="{status_id: 2}" :get-customer-balance="true" @loadedTransactions="loadedTransactions"/>
     </div>
 </template>
 

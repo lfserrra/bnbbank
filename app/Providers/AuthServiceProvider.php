@@ -43,5 +43,9 @@ class AuthServiceProvider extends ServiceProvider {
         Gate::define('can-reprove-deposit', function (User $user) {
             return $user->is_admin;
         });
+
+        Gate::define('can-view-own-balance', function (User $user) {
+            return ! $user->is_admin;
+        });
     }
 }
